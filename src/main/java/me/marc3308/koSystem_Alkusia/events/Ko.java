@@ -21,6 +21,7 @@ import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -115,7 +116,7 @@ public class Ko implements Listener {
     @EventHandler
     public void oninv(PlayerInteractEntityEvent e){
         //check if clickt is ko
-        if(e.getRightClicked() instanceof Player p && p.getPersistentDataContainer().has(new NamespacedKey(KoSystem_Alkusia.getPlugin(), "istko"), PersistentDataType.INTEGER)){
+        if(e.getHand().equals(EquipmentSlot.HAND) && e.getRightClicked() instanceof Player p && p.getPersistentDataContainer().has(new NamespacedKey(KoSystem_Alkusia.getPlugin(), "istko"), PersistentDataType.INTEGER)){
             //check if player is sneaking
             if(e.getPlayer().isSneaking()){
                 BossBar bar =Bukkit.createBossBar(""+KoSystem_Alkusia.pickuptime, BarColor.RED, BarStyle.SEGMENTED_20);
@@ -133,16 +134,17 @@ public class Ko implements Listener {
 
                         bar.setTitle(""+(KoSystem_Alkusia.pickuptime-i));
                         //bar check
-                        bar.setColor((i/KoSystem_Alkusia.pickuptime)>=0.6 ? BarColor.GREEN
-                                : (i/KoSystem_Alkusia.pickuptime)>=0.3 ? BarColor.YELLOW
+                        double progress = (double) i / KoSystem_Alkusia.pickuptime;
+                        bar.setColor(progress>=0.6 ? BarColor.GREEN
+                                : progress>=0.3 ? BarColor.YELLOW
                                 : BarColor.RED);
-                        bar.setProgress(Math.min(Math.max(1-(i/KoSystem_Alkusia.pickuptime), 0.0), 1.0));
+                        bar.setProgress(Math.min(Math.max(1.0-progress, 0.0), 1.0));
 
                         i++;
                         //aufheben check
                         if(i>=KoSystem_Alkusia.pickuptime){
                             bar.removeAll();
-                            e.getPlayer().sendMessage("§cDu hast " + p.getName() + " aufgehoben!");
+                            e.getPlayer().sendMessage(ChatColor.GREEN+"Du hast " +ChatColor.WHITE+ p.getName() + ChatColor.GREEN+" aufgehoben!");
                             p.getLocation().getNearbyEntities(1,1,1).stream().filter(et -> et instanceof ArmorStand && ((ArmorStand) et).isSmall()).forEach(entity -> ((ArmorStand) entity).remove());
                             p.getPersistentDataContainer().remove(new NamespacedKey(KoSystem_Alkusia.getPlugin(), "istko"));
                             p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 5, 1, false, false));

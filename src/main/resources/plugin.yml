@@ -2,3 +2,10 @@ name: Ko-System_Alkusia
 version: '1.21.5'
 main: me.marc3308.koSystem_Alkusia.KoSystem_Alkusia
 api-version: '1.21'
+commands:
+  Kozeit:
+    description: ändere die Zeit die ein spieler ko ist
+    permission: op
+  picuptime:
+    description: ändere die Zeit die ein spieler braucht einen ko spieler aufzuheben
+    permission: op

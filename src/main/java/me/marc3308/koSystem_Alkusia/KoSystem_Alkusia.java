@@ -1,5 +1,7 @@
 package me.marc3308.koSystem_Alkusia;
 
+import me.marc3308.koSystem_Alkusia.commands.downtime;
+import me.marc3308.koSystem_Alkusia.commands.picuptime;
 import me.marc3308.koSystem_Alkusia.events.Ko;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -49,6 +51,10 @@ public final class KoSystem_Alkusia extends JavaPlugin {
 
         // Plugin startup logic
         Bukkit.getPluginManager().registerEvents(new Ko(), this);
+
+        //commands
+        getCommand("Kozeit").setExecutor(new downtime());
+        getCommand("picuptime").setExecutor(new picuptime());
 
     }
 
