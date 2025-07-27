@@ -1,0 +1,4 @@
+name: Ko-System_Alkusia
+version: '1.21.5'
+main: me.marc3308.koSystem_Alkusia.KoSystem_Alkusia
+api-version: '1.21'
